@@ -4,28 +4,41 @@ import React, { useState } from "react";
 const page = () => {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
-  const [mainTask, setMainTask] = useState([])
+  const [mainTask, setMainTask] = useState([]);
 
   const submitHandler = (e) => {
-    e.preventDefault()
-    setMainTask([...mainTask, {title, desc}])
-    setTitle("")
-    setDesc("")
-
+    e.preventDefault();
+    setMainTask([...mainTask, { title, desc }]);
+    setTitle("");
+    setDesc("");
   };
-  let renderTask = <h2>No Task Available</h2>
-  if(mainTask.length>0){
-    renderTask = mainTask.map((t,i)=>{
+
+  const deleteHandler = (i) => {
+    let copytask = [...mainTask];
+    copytask.splice(i, 1);
+    setMainTask(copytask);
+  };
+
+  let renderTask = <h2>No Task Available</h2>;
+  if (mainTask.length > 0) {
+    renderTask = mainTask.map((t, i) => {
       return (
-        <ul>
-        <div className="flex justify-between mb-5">
-          <h5 className="text-xl font-semibold">{t.title} </h5>
-          <h6 className="text-xl font-semibold">{t.desc} </h6>
-        </div>
-  
+        <ul key={i} className="flex items-center justify-between mb-5">
+          <div className="flex justify-between w-2/3">
+            <p className="text-xl font-normal">{t.title} </p>
+            <p className="text-xl font-normal">{t.desc} </p>
+          </div>
+          <button
+            onClick={() => {
+              deleteHandler(i);
+            }}
+            className="bg-red-500 text-white px-4 py-2 rounded font-semibold"
+          >
+            Delete
+          </button>
         </ul>
-      )
-    })
+      );
+    });
   }
 
   return (
@@ -60,7 +73,7 @@ const page = () => {
             Add Task
           </button>
         </form>
-        <hr/>
+        <hr />
         <div className="p-8 bg-slate-300">{renderTask}</div>
       </div>
     </>
@@ -68,3 +81,6 @@ const page = () => {
 };
 
 export default page;
+
+
+// #task done
